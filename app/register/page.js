@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import '../auth.css';
 
-function Login() {
+function Registration() {
 	const [formData, setFormData] = useState({
 		username: '',
+		email: '',
 		password: '',
 	});
 
@@ -26,7 +27,7 @@ function Login() {
 		<div className='container'>
 			<form
 				onSubmit={handleSubmit}
-				className='mt-3 space-y-6 bg-white p-8 rounded-lg shadow-md'
+				className=' space-y-6 bg-white p-8 rounded-lg shadow-md'
 			>
 				<div>
 					<label
@@ -42,6 +43,25 @@ function Login() {
 						autoComplete='username'
 						className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 						value={formData.username}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+
+				<div>
+					<label
+						htmlFor='email'
+						className='block text-sm font-medium text-gray-700'
+					>
+						Email
+					</label>
+					<input
+						type='email'
+						name='email'
+						id='email'
+						autoComplete='email'
+						className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+						value={formData.email}
 						onChange={handleChange}
 						required
 					/>
@@ -79,4 +99,4 @@ function Login() {
 	);
 }
 
-export default Login;
+export default Registration;

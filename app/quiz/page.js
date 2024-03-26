@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { quiz } from '../data';
-
+import './quiz.css';
 export default function Quiz() {
 	const [activeQuestion, setActiveQuestion] = useState(0);
 	const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -48,13 +48,13 @@ export default function Quiz() {
 	return (
 		<div className='container'>
 			<h1>Quiz Page</h1>
+			<h2>
+				Question: {activeQuestion + 1} / {length}
+			</h2>
 
 			{!showResult ? (
 				<div className='quiz-container'>
 					<div>
-						<h2>
-							Question: {activeQuestion + 1} / {length}
-						</h2>
 						<h3>{question}</h3>
 						<ul>
 							{answers.map((answer, index) => (
