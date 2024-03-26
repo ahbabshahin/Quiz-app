@@ -20,7 +20,6 @@ function Registration() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
-		// Here you would typically send the formData to the backend for processing.
 	};
 
 	return (
