@@ -1,12 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import '../auth.css';
+import { login } from '@/lib/api';
 
 function Login() {
-	const [formData, setFormData] = useState({
+	const initialState = {
 		username: '',
 		password: '',
-	});
+	};
+	const [formData, setFormData] = useState(initialState);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -16,9 +18,11 @@ function Login() {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
+		await login(formData);
+		setFormData(initialState);
 	};
 
 	return (

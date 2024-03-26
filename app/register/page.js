@@ -1,13 +1,15 @@
 'use client';
 import React, { useState } from 'react';
 import '../auth.css';
+import { register } from '@/lib/api';
 
 function Registration() {
-	const [formData, setFormData] = useState({
+	const initialState = {
 		username: '',
 		email: '',
 		password: '',
-	});
+	};
+	const [formData, setFormData] = useState(initialState);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -17,9 +19,11 @@ function Registration() {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
+		await register(formData);
+		setFormData(initialState);
 	};
 
 	return (
