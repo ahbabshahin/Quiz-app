@@ -26,7 +26,7 @@ export const POST = async (req) => {
 			{ status: 201 }
 		);
 	} catch (error) {
-		return new NextResponse('Error in fetching users' + error, {
+		return new NextResponse('Error in creating user' + error, {
 			status: 500,
 		});
 	}

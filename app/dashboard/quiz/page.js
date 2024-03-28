@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { quiz } from '../data';
+import { quiz } from '@/app/data';
 import './quiz.css';
+import { getQuiz } from '../../../lib/quizApi';
 export default function Quiz() {
 	const [activeQuestion, setActiveQuestion] = useState(0);
 	const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -21,6 +22,13 @@ export default function Quiz() {
 		setChecked(true);
 		setSelectedAnswer(answer);
 	};
+
+	// const getQ = async () => {
+	// 	const quiz = await getQuiz();
+
+	// 	console.log(quiz);
+	// };
+	// await getQ();
 
 	const nextQuestion = () => {
 		const isCorrect = selectedAnswer === correctAnswer;

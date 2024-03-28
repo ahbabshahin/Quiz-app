@@ -3,3 +3,8 @@ body {
   overflow-x: hidden;
   background-color: #000925;
 }
+
+h1,
+h2 {
+  color: #eee;
+}

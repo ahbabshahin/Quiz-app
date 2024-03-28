@@ -1,10 +1,11 @@
 'use client';
 import React, { useState } from 'react';
-import '../auth.css';
-
+import '@/app/auth.css';
+import { addQuiz } from '@/lib/quizApi';
 function AddQuiz() {
 	const [formData, setFormData] = useState({
 		quizName: '',
+		id: '',
 		question: '',
 		options: ['', '', '', ''],
 		answer: '',
@@ -12,6 +13,7 @@ function AddQuiz() {
 	const [touched, setTouched] = useState({
 		quizName: false,
 		question: false,
+		id: false,
 		options: [false, false, false, false],
 		answer: false,
 	});
@@ -29,7 +31,6 @@ function AddQuiz() {
 		}
 
 		setFormData(newFormData);
-		// Update the touched status to provide instant feedback
 		if (touched[name]) {
 			validate(name, value);
 		}
@@ -54,7 +55,6 @@ function AddQuiz() {
 	const validate = (name, value) => {
 		let newErrors = { ...errors };
 
-		// Check for required fields
 		if (value.trim() === '') {
 			newErrors[name] = 'This field is required';
 		} else {
@@ -64,9 +64,9 @@ function AddQuiz() {
 		setErrors(newErrors);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Check for errors in all fields
+
 		Object.keys(formData).forEach((name) => {
 			if (name === 'options') {
 				formData.options.forEach((option, index) =>
@@ -77,10 +77,18 @@ function AddQuiz() {
 			}
 		});
 
-		// If there are no errors, proceed with form submission
 		if (Object.keys(errors).length === 0) {
 			console.log('Form data submitted:', formData);
-			// Here you would typically send the formData to the backend for processing.
+			const str = sessionStorage.getItem('userId');
+			let userId;
+			if (str) userId = JSON.parse(str);
+
+			let payload = {
+				createdBy: userId,
+			};
+
+			payload = { ...formData };
+			await addQuiz(payload);
 		}
 	};
 
@@ -111,6 +119,27 @@ function AddQuiz() {
 						<div className='text-sm text-red-500'>
 							{errors.quizName}
 						</div>
+					)}
+				</div>
+				<div>
+					<label
+						htmlFor='id'
+						className='block text-sm font-medium text-gray-700'
+					>
+						Id
+					</label>
+					<input
+						type='text'
+						name='id'
+						id='id'
+						className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+						value={formData.id}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						required
+					/>
+					{touched.id && errors.id && (
+						<div className='text-sm text-red-500'>{errors.id}</div>
 					)}
 				</div>
 

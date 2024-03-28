@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import '../auth.css';
 import { login } from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 function Login() {
+	const router = useRouter();
 	const initialState = {
 		username: '',
 		password: '',
@@ -21,8 +23,17 @@ function Login() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
-		await login(formData);
-		setFormData(initialState);
+		try {
+			const data = await login(formData);
+			console.log('data ', data);
+			// toast();
+			alert(JSON.stringify(data?.message));
+			setFormData(initialState);
+			router.push('/dashboard');
+		} catch (error) {
+			console.log(error);
+			alert('error ', error.message);
+		}
 	};
 
 	return (
