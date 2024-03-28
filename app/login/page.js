@@ -59,7 +59,7 @@ function Login() {
 						htmlFor='email'
 						className='block text-sm font-medium text-gray-700'
 					>
-						email
+						Email
 					</label>
 					<input
 						type='text'

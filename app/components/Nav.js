@@ -17,28 +17,28 @@ function Navbar() {
 	return (
 		<nav className='navbar'>
 			<div className='navContainer'>
-				<Link href='/' className='navbar-brand'>
-					Home
-				</Link>
 				<ul className='navbar-nav'>
-					<>
-						<li>
-							<Link href='/dashboard'>Dashboard</Link>
-						</li>
-						<li>
-							<Link href='/dashboard/quiz'>Quiz</Link>
-						</li>
-						<li>
-							<Link href='/dashboard/addQuiz'>Add Quiz</Link>
-						</li>
+					<li>
+						<Link href='/' className='navbar-brand'>
+							Home
+						</Link>
+					</li>
+					<li>
+						<Link href='/dashboard'>Dashboard</Link>
+					</li>
+					<li>
+						<Link href='/dashboard/quiz'>Quiz</Link>
+					</li>
+					<li>
+						<Link href='/dashboard/addQuiz'>Add Quiz</Link>
+					</li>
 
-						<li>
-							<Link href='/login'>Login</Link>
-						</li>
-						<li>
-							<Link href='/register'>Register</Link>
-						</li>
-					</>
+					<li>
+						<Link href='/login'>Login</Link>
+					</li>
+					<li>
+						<Link href='/register'>Register</Link>
+					</li>
 				</ul>
 			</div>
 		</nav>
