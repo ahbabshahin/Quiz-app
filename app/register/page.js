@@ -1,15 +1,17 @@
 'use client';
 import React, { useState } from 'react';
 import '../auth.css';
-import { register } from '@/lib/api';
 
 function Registration() {
 	const initialState = {
 		username: '',
 		email: '',
 		password: '',
+		admin: false,
 	};
 	const [formData, setFormData] = useState(initialState);
+	const [error, setError] = useState('');
+	const [pending, setPending] = useState('');
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -22,7 +24,32 @@ function Registration() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
-		await register(formData);
+		if (!formData.username || !formData.email || !formData.password) {
+			setError('must provide all credential');
+		}
+		try {
+			setPending(true);
+			const res = await fetch('http://localhost:3000/api/auth/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (res.ok) {
+				setPending(false);
+				setFormData(initialState);
+			} else {
+				setPending(false);
+				const err = res.json();
+				setError(err.message());
+				console.log('something went wrong');
+			}
+		} catch (error) {
+			setPending(false);
+			setError('something went wrong');
+		}
 		setFormData(initialState);
 	};
 
@@ -90,6 +117,7 @@ function Registration() {
 				</div>
 
 				<div className='flex items-center justify-end'>
+					{error && <span>{error}</span>}
 					<button
 						type='submit'
 						className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'

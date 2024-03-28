@@ -1,17 +1,17 @@
 'use client';
 import React, { useState } from 'react';
 import '../auth.css';
-import { login } from '@/lib/api';
 import { useRouter } from 'next/navigation';
-
+import { signIn } from 'next-auth/react';
 function Login() {
 	const router = useRouter();
 	const initialState = {
-		username: '',
+		email: '',
 		password: '',
 	};
 	const [formData, setFormData] = useState(initialState);
-
+	const [error, setError] = useState('');
+	const [pending, setPending] = useState('');
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevState) => ({
@@ -23,17 +23,29 @@ function Login() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('Form data submitted:', formData);
-		try {
-			const data = await login(formData);
-			console.log('data ', data);
-			// toast();
-			alert(JSON.stringify(data?.message));
-			setFormData(initialState);
-			router.push('/dashboard');
-		} catch (error) {
-			console.log(error);
-			alert('error ', error.message);
+		if (!formData.email || !formData.password) {
+			setError('must provide all credential');
 		}
+
+		try {
+			setPending(true);
+			const res = await signIn('credentials', {
+				email: formData.email,
+				password: formData.password,
+				redirect: false,
+			});
+
+			if (res?.error) {
+				setError('Invalid cred');
+				setPending(false);
+				return;
+			}
+			router.replace('/dashboard');
+		} catch (error) {
+			setPending(false);
+			setError('something went wrong');
+		}
+		setFormData(initialState);
 	};
 
 	return (
@@ -44,18 +56,18 @@ function Login() {
 			>
 				<div>
 					<label
-						htmlFor='username'
+						htmlFor='email'
 						className='block text-sm font-medium text-gray-700'
 					>
-						Username
+						email
 					</label>
 					<input
 						type='text'
-						name='username'
-						id='username'
-						autoComplete='username'
+						name='email'
+						id='email'
+						autoComplete='email'
 						className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-						value={formData.username}
+						value={formData.email}
 						onChange={handleChange}
 						required
 					/>

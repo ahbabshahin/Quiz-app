@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import '@/app/auth.css';
-import { addQuiz } from '@/lib/quizApi';
+import '../../auth.css';
+
 function AddQuiz() {
 	const [formData, setFormData] = useState({
 		quizName: '',
